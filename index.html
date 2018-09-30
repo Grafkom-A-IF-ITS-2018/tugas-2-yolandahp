@@ -238,12 +238,49 @@
                 lVertexColorBuffer.itemSize = 4
                 lVertexColorBuffer.numItems = colors.length/4
 
-                // //Cube position
-                // cubeVertexPositionBuffer = gl.createBuffer()
-                // gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer)
 
-                // var vertices = []
 
+                //Cube position
+                cubeVertexPositionBuffer = gl.createBuffer()
+                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer)
+
+                var cubevertices = [
+                    -20.0, 20.0, -45.0,
+                    20.0, 20.0, -45.0,
+                    20.0, -20.0, -45.0,
+                    -20.0, -20.0, -45.0,
+                    -20.0, 20.0, -45.0,
+                    
+                    -20.0, 20.0, -75.0,
+                    20.0, 20.0, -75.0,
+                    20.0, 20.0, -45.0,
+                    20.0, -20.0, -45.0,
+                    20.0, -20.0, -75.0,
+                    
+                    -20.0, -20.0, -75.0,
+                    -20.0, -20.0, -45.0,
+                    -20.0, -20.0, -75.0,
+                    -20.0, 20.0, -75.0,
+                    20.0, 20.0, -75.0,
+                    20.0, -20.0, -75.0,
+                ]
+                
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cubevertices), gl.STATIC_DRAW)
+                cubeVertexPositionBuffer.itemSize = 3
+                cubeVertexPositionBuffer.numItems = cubevertices.length/3
+
+                //letter L color
+                cubeVertexColorBuffer = gl.createBuffer()
+                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer)
+
+                var cubecolors = []
+                for (var i = 0; i < 16; i++){
+                    cubecolors = cubecolors.concat(c5)
+                }
+
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cubecolors), gl.STATIC_DRAW)
+                cubeVertexColorBuffer.itemSize = 4
+                cubeVertexColorBuffer.numItems = cubecolors.length/4
 
             }
             var rl = 0
@@ -254,8 +291,10 @@
                 mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth/gl.viewportHeight, 0.1, 100.0)
                 mat4.identity(mvMatrix)
                 
-                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -20.0])
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -15.0])
                 mvPushMatrix()
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -0.4])
+
                 mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rl), [1.0, 0.0, 0.0])
                 gl.bindBuffer(gl.ARRAY_BUFFER, lVertexPositionBuffer)
                 gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, lVertexPositionBuffer.itemSize,
@@ -266,7 +305,23 @@
                 setMatrixUniform()
                 gl.drawArrays(gl.TRIANGLES, 0, lVertexPositionBuffer.numItems)
                 mvPopMatrix()
+
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, 5.0])
+                mvPushMatrix()
+                mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(0), [0.0, 1.0, 0.0])
+                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer)
+                gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize,
+                gl.FLOAT, false, 0, 0)
+                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer)
+                gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, cubeVertexColorBuffer.itemSize,
+                gl.FLOAT, false, 0, 0)
+                setMatrixUniform()
+                gl.drawArrays(gl.LINE_STRIP, 0, cubeVertexPositionBuffer.numItems)
+                mvPopMatrix()
             }
+
+
+
             var lastTime = 0
             function animate() {
                 var timeNow = new Date().getTime()
