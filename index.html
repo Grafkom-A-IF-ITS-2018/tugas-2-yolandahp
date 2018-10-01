@@ -109,6 +109,9 @@
             var cubeVertexPositionBuffer
             var cubeVertexColorBuffer
 
+            var lvertices = []
+            var cubevertices = []
+
             function initBuffers(){
                 //letter L position
                 lVertexPositionBuffer = gl.createBuffer()
@@ -118,95 +121,99 @@
                 
                 for (var i = 0; i < 6; i++){
                     vertices = vertices.concat([
-                        -0.8, 1.2 - i*0.4, 0.0,
-                        -0.4, 1.2 - i*0.4, 0.0,
-                        -0.8, 0.8 - i*0.4, 0.0,
-                        -0.4, 1.2 - i*0.4, 0.0,
-                        -0.8, 0.8 - i*0.4, 0.0,
-                        -0.4, 0.8 - i*0.4, 0.0,
+                        -4.0, 6.0 - i*2.0, 0.0,
+                        -2.0, 6.0 - i*2.0, 0.0,
+                        -4.0, 4.0 - i*2.0, 0.0,
+                        -2.0, 6.0 - i*2.0, 0.0,
+                        -4.0, 4.0 - i*2.0, 0.0,
+                        -2.0, 4.0 - i*2.0, 0.0,
                     ])
                 }
 
                 for (var i = 0; i < 3; i++){
                     vertices = vertices.concat([
-                        -0.4 + i*0.4, -0.8, 0.0,
-                        -0.4 + i*0.4, -1.2, 0.0,
-                        0.0 + i*0.4, -0.8, 0.0,
-                        -0.4 + i*0.4, -1.2, 0.0,
-                        0.0 + i*0.4, -0.8, 0.0,
-                        0.0 + i*0.4, -1.2, 0.0,  
+                        -2.0 + i*2.0, -4.0, 0.0,
+                        -2.0 + i*2.0, -6.0, 0.0,
+                        0.0 + i*2.0, -4.0, 0.0,
+                        -2.0 + i*2.0, -6.0, 0.0,
+                        0.0 + i*2.0, -4.0, 0.0,
+                        0.0 + i*2.0, -6.0, 0.0,  
                     ])
                 }
 
                 for (var i = 0; i < 6; i++){
                     vertices = vertices.concat([
-                        -0.8, 1.2 - i*0.4, -0.3,
-                        -0.4, 1.2 - i*0.4, -0.3,
-                        -0.8, 0.8 - i*0.4, -0.3,
-                        -0.4, 1.2 - i*0.4, -0.3,
-                        -0.8, 0.8 - i*0.4, -0.3,
-                        -0.4, 0.8 - i*0.4, -0.3,
+                        -4.0, 6.0 - i*2.0, -2.0,
+                        -2.0, 6.0 - i*2.0, -2.0,
+                        -4.0, 4.0 - i*2.0, -2.0,
+                        -2.0, 6.0 - i*2.0, -2.0,
+                        -4.0, 4.0 - i*2.0, -2.0,
+                        -2.0, 4.0 - i*2.0, -2.0,
                     ])
                 }
 
                 for (var i = 0; i < 3; i++){
                     vertices = vertices.concat([
-                        -0.4 + i*0.4, -0.8, -0.3,
-                        -0.4 + i*0.4, -1.2, -0.3,
-                        0.0 + i*0.4, -0.8, -0.3,
-                        -0.4 + i*0.4, -1.2, -0.3,
-                        0.0 + i*0.4, -0.8, -0.3,
-                        0.0 + i*0.4, -1.2, -0.3,  
+                        -2.0 + i*2.0, -4.0, -2.0,
+                        -2.0 + i*2.0, -6.0, -2.0,
+                        0.0 + i*2.0, -4.0, -2.0,
+                        -2.0 + i*2.0, -6.0, -2.0,
+                        0.0 + i*2.0, -4.0, -2.0,
+                        0.0 + i*2.0, -6.0, -2.0,  
                     ])
                 }
                 
                 vertices = vertices.concat([
                     //atas
-                    -0.8, 1.2, 0.0,
-                    -0.8, 1.2, -0.3,
-                    -0.4, 1.2, 0.0,
-                    -0.8, 1.2, -0.3,
-                    -0.4, 1.2, 0.0,
-                    -0.4, 1.2, -0.3,
+                    -4.0, 6.0, 0.0,
+                    -4.0, 6.0, -2.0,
+                    -2.0, 6.0, 0.0,
+                    -4.0, 6.0, -2.0,
+                    -2.0, 6.0, 0.0,
+                    -2.0, 6.0, -2.0,
 
                     //tengah
-                    -0.4, -0.8, 0.0,
-                    -0.4, -0.8, -0.3,
-                    0.8, -0.8, 0.0,
-                    -0.4, -0.8, -0.3,
-                    0.8, -0.8, 0.0,
-                    0.8, -0.8, -0.3,
+                    -2.0, -4.0, 0.0,
+                    -2.0, -4.0, -2.0,
+                    4.0, -4.0, 0.0,
+                    -2.0, -4.0, -2.0,
+                    4.0, -4.0, 0.0,
+                    4.0, -4.0, -2.0,
 
                     //bawah
-                    -0.8, -1.2, 0.0,
-                    -0.8, -1.2, -0.3,
-                    0.8, -1.2, 0.0,
-                    -0.8, -1.2, -0.3,
-                    0.8, -1.2, 0.0,
-                    0.8, -1.2, -0.3,
+                    -4.0, -6.0, 0.0,
+                    -4.0, -6.0, -2.0,
+                    4.0, -6.0, 0.0,
+                    -4.0, -6.0, -2.0,
+                    4.0, -6.0, 0.0,
+                    4.0, -6.0, -2.0,
 
                     //tegak
-                    -0.8, 1.2, 0.0,
-                    -0.8, 1.2, -0.3,
-                    -0.8, -1.2, 0.0,
-                    -0.8, 1.2, -0.3,
-                    -0.8, -1.2, 0.0,
-                    -0.8, -1.2, -0.3,
+                    -4.0, 6.0, 0.0,
+                    -4.0, 6.0, -2.0,
+                    -4.0, -6.0, 0.0,
+                    -4.0, 6.0, -2.0,
+                    -4.0, -6.0, 0.0,
+                    -4.0, -6.0, -2.0,
                     
-                    -0.4, 1.2, 0.0,
-                    -0.4, 1.2, -0.3,
-                    -0.4, -0.8, 0.0,
-                    -0.4, 1.2, -0.3,
-                    -0.4, -0.8, 0.0,
-                    -0.4, -0.8, -0.3,
+                    -2.0, 6.0, 0.0,
+                    -2.0, 6.0, -2.0,
+                    -2.0, -4.0, 0.0,
+                    -2.0, 6.0, -2.0,
+                    -2.0, -4.0, 0.0,
+                    -2.0, -4.0, -2.0,
 
-                    0.8, -0.8, 0.0,
-                    0.8, -0.8, -0.3,
-                    0.8, -1.2, 0.0,
-                    0.8, -0.8, -0.3,
-                    0.8, -1.2, 0.0,
-                    0.8, -1.2, -0.3,                    
+                    4.0, -4.0, 0.0,
+                    4.0, -4.0, -2.0,
+                    4.0, -6.0, 0.0,
+                    4.0, -4.0, -2.0,
+                    4.0, -6.0, 0.0,
+                    4.0, -6.0, -2.0,                    
                 ])
+
+                for (var i = 0; i < vertices.length/3; i++){
+                    lvertices.push([vertices[i*3], vertices[i*3 +1], vertices[i*3 +2], 1.0])
+                }
 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
                 lVertexPositionBuffer.itemSize = 3
@@ -238,38 +245,45 @@
                 lVertexColorBuffer.itemSize = 4
                 lVertexColorBuffer.numItems = colors.length/4
 
-
-
                 //Cube position
                 cubeVertexPositionBuffer = gl.createBuffer()
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer)
 
-                var cubevertices = [
-                    -20.0, 20.0, -45.0,
-                    20.0, 20.0, -45.0,
-                    20.0, -20.0, -45.0,
-                    -20.0, -20.0, -45.0,
-                    -20.0, 20.0, -45.0,
+                vertices = [
+                    -20.0, 20.0, 0.0,
+                    20.0, 20.0, 0.0,
+                    20.0, -20.0, 0.0,
+                    -20.0, -20.0, 0.0,
+                    -20.0, 20.0, 0.0,
                     
-                    -20.0, 20.0, -75.0,
-                    20.0, 20.0, -75.0,
-                    20.0, 20.0, -45.0,
-                    20.0, -20.0, -45.0,
-                    20.0, -20.0, -75.0,
+                    -20.0, 20.0, -30.0,
+                    20.0, 20.0, -30.0,
+                    20.0, 20.0, 0.0,
+                    20.0, -20.0, 0.0,
+                    20.0, -20.0, -30.0,
                     
-                    -20.0, -20.0, -75.0,
-                    -20.0, -20.0, -45.0,
-                    -20.0, -20.0, -75.0,
-                    -20.0, 20.0, -75.0,
-                    20.0, 20.0, -75.0,
-                    20.0, -20.0, -75.0,
+                    -20.0, -20.0, -30.0,
+                    -20.0, -20.0, 0.0,
+                    -20.0, -20.0, -30.0,
+                    -20.0, 20.0, -30.0,
+                    20.0, 20.0, -30.0,
+                    20.0, -20.0, -30.0,
                 ]
-                
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cubevertices), gl.STATIC_DRAW)
-                cubeVertexPositionBuffer.itemSize = 3
-                cubeVertexPositionBuffer.numItems = cubevertices.length/3
 
-                //letter L color
+                cubevertices.push([-20.0, 20.0, 0.0, 1.0]) //kiri atas depan
+                cubevertices.push([20.0, 20.0, 0.0, 1.0]) //kanan atas depan
+                cubevertices.push([20.0, -20.0, 0.0, 1.0]) //kanan bawah depan
+                cubevertices.push([-20.0, -20.0, 0.0, 1.0]) //kiri bawah depan
+                cubevertices.push([-20.0, 20.0, -30.0, 1.0]) //kiri atas belakang
+                cubevertices.push([20.0, 20.0, -30.0, 1.0]) //kanan atas belakang
+                cubevertices.push([-20.0, -20.0, -30.0, 1.0]) //kiri bawah belakang
+                cubevertices.push([20.0, -20.0, -30.0, 1.0]) //kanan bawah belakang
+                
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
+                cubeVertexPositionBuffer.itemSize = 3
+                cubeVertexPositionBuffer.numItems = vertices.length/3
+                
+                //cube color
                 cubeVertexColorBuffer = gl.createBuffer()
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer)
 
@@ -281,46 +295,71 @@
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cubecolors), gl.STATIC_DRAW)
                 cubeVertexColorBuffer.itemSize = 4
                 cubeVertexColorBuffer.numItems = cubecolors.length/4
-
             }
+
             var rl = 0
+            
+            var xtrans = 0.0
+            var ytrans = 0.0
+            var ztrans = 0.0
 
             function drawScene(){
                 gl.viewport(0, 0, gl.viewportWidth, gl.viewportWidth)
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
                 mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth/gl.viewportHeight, 0.1, 100.0)
                 mat4.identity(mvMatrix)
-                
-                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -15.0])
-                mvPushMatrix()
-                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -0.4])
 
-                mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rl), [1.0, 0.0, 0.0])
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -75.0])
+                mvPushMatrix()
+                
+                mat4.translate(mvMatrix, mvMatrix, [xtrans, ytrans, ztrans])
+                mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rl), [0.0, 1.0, 0.0])
                 gl.bindBuffer(gl.ARRAY_BUFFER, lVertexPositionBuffer)
                 gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, lVertexPositionBuffer.itemSize,
                 gl.FLOAT, false, 0, 0)
                 gl.bindBuffer(gl.ARRAY_BUFFER, lVertexColorBuffer)
                 gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, lVertexColorBuffer.itemSize,
                 gl.FLOAT, false, 0, 0)
+
+                var currentpos_l = []
+                for (var i = 0; i < lvertices.length; i++) {
+                    var cur = matrixmul(mvMatrix, lvertices[i])
+                    currentpos_l.push(cur)
+                }
+
                 setMatrixUniform()
                 gl.drawArrays(gl.TRIANGLES, 0, lVertexPositionBuffer.numItems)
+
+                //console.log(currentpos_l[0])
+
                 mvPopMatrix()
 
-                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, 5.0])
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, 0.0])
                 mvPushMatrix()
-                mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(0), [0.0, 1.0, 0.0])
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer)
                 gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize,
                 gl.FLOAT, false, 0, 0)
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer)
                 gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, cubeVertexColorBuffer.itemSize,
                 gl.FLOAT, false, 0, 0)
+               
+                var currentpos_cube = []
+                for (var i = 0; i < cubevertices.length; i++) {
+                    var cur = matrixmul(mvMatrix, cubevertices[i])
+                    currentpos_cube.push(cur)
+                }
+
+                //console.log(currentpos_cube)
+
+                lmove(currentpos_l, currentpos_cube)
+
                 setMatrixUniform()
                 gl.drawArrays(gl.LINE_STRIP, 0, cubeVertexPositionBuffer.numItems)
+                
                 mvPopMatrix()
+                
+                
             }
-
-
 
             var lastTime = 0
             function animate() {
@@ -331,6 +370,35 @@
                 }
                 lastTime = timeNow
             }
+
+            function matrixmul(mv, l) {
+                var x = mv[0]*l[0] + mv[4]*l[1] + mv[8]*l[2] + mv[12]*l[3]
+                var y = mv[1]*l[0] + mv[5]*l[1] + mv[9]*l[2] + mv[13]*l[3]
+                var z = mv[2]*l[0] + mv[6]*l[1] + mv[10]*l[2] + mv[14]*l[3]
+                var i = mv[3]*l[0] + mv[7]*l[1] + mv[11]*l[2] + mv[15]*l[3]
+                
+                //console.log(x, y, z, i)
+
+                return [x, y, z, i]
+            }
+
+            function checkcollision() {
+
+            }
+
+            function lmove(l, cube) {
+                //kanan
+                for (var i = 0; i < l.length; i++) {
+                    if (l[i][0] >= cube[1][0]) {
+                        console.log('nabrak')
+                    }
+                }
+
+                //console.log(l[0][0], cube[1][0])
+
+                xtrans += 0.003
+            }
+
             function tick() {
                 requestAnimationFrame(tick)
                 drawScene()
