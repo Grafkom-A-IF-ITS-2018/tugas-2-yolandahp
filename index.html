@@ -256,28 +256,28 @@
                     -27.5, -27.5, 0.0,
                     -27.5, 27.5, 0.0,
                     
-                    -27.5, 27.5, -30.0,
-                    27.5, 27.5, -30.0,
+                    -27.5, 27.5, -25.0,
+                    27.5, 27.5, -25.0,
                     27.5, 27.5, 0.0,
                     27.5, -27.5, 0.0,
-                    27.5, -27.5, -30.0,
+                    27.5, -27.5, -25.0,
                     
-                    -27.5, -27.5, -30.0,
+                    -27.5, -27.5, -25.0,
                     -27.5, -27.5, 0.0,
-                    -27.5, -27.5, -30.0,
-                    -27.5, 27.5, -30.0,
-                    27.5, 27.5, -30.0,
-                    27.5, -27.5, -30.0,
+                    -27.5, -27.5, -25.0,
+                    -27.5, 27.5, -25.0,
+                    27.5, 27.5, -25.0,
+                    27.5, -27.5, -25.0,
                 ]
 
                 cubevertices.push([-27.5, 27.5, 0.0, 1.0]) //kiri atas depan
                 cubevertices.push([27.5, 27.5, 0.0, 1.0]) //kanan atas depan
                 cubevertices.push([27.5, -27.5, 0.0, 1.0]) //kanan bawah depan
                 cubevertices.push([-27.5, -27.5, 0.0, 1.0]) //kiri bawah depan
-                cubevertices.push([-27.5, 27.5, -30.0, 1.0]) //kiri atas belakang
-                cubevertices.push([27.5, 27.5, -30.0, 1.0]) //kanan atas belakang
-                cubevertices.push([-27.5, -27.5, -30.0, 1.0]) //kiri bawah belakang
-                cubevertices.push([27.5, -27.5, -30.0, 1.0]) //kanan bawah belakang
+                cubevertices.push([-27.5, 27.5, -25.0, 1.0]) //kiri atas belakang
+                cubevertices.push([27.5, 27.5, -25.0, 1.0]) //kanan atas belakang
+                cubevertices.push([-27.5, -27.5, -25.0, 1.0]) //kiri bawah belakang
+                cubevertices.push([27.5, -27.5, -25.0, 1.0]) //kanan bawah belakang
                 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
                 cubeVertexPositionBuffer.itemSize = 3
@@ -301,7 +301,7 @@
             
             var xtrans = 0.3
             var ytrans = 0.4
-            var ztrans = 0.6
+            var ztrans = -10.0
 
             function drawScene(){
                 gl.viewport(0, 0, gl.viewportWidth, gl.viewportWidth)
@@ -309,7 +309,7 @@
                 mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth/gl.viewportHeight, 0.1, 100.0)
                 mat4.identity(mvMatrix)
 
-                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -60.0])
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -70.0])
                 mvPushMatrix()
                 
                 mat4.translate(mvMatrix, mvMatrix, [xtrans, ytrans, ztrans])
@@ -349,7 +349,7 @@
                     currentpos_cube.push(cur)
                 }
 
-                console.log(xtrans, ytrans, ztrans)
+                //console.log(xtrans, ytrans, ztrans)
 
                 checkcollision(currentpos_l, currentpos_cube)
 
@@ -367,6 +367,7 @@
                 if (lastTime != 0) {
                     var elapsed = timeNow - lastTime
                     rl += (90 * elapsed) / 1000.0
+                    lmove()
                 }
                 lastTime = timeNow
             }
@@ -382,53 +383,67 @@
                 return [x, y, z, i]
             }
 
-            var colx = 1, coly = 1, colz = -1
+            var colx = 1.0, coly = 1.0, colz = -1.0
 
             function checkcollision(l, cube) {
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][0] >= cube[1][0]) {
-                        colx = colx*(-1)
-                        lmove()
+                        if (colx > 0) {
+                            colx = colx*(-1.0)
+                            lmove()
+                        }
                         return
                     } 
                 }
 
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][0] <= cube[0][0]) {
-                        colx = colx*(-1)
-                        lmove()
+                        if (colx < 0) {
+                            colx = colx*(-1.0)
+                            lmove()
+                        }
                         return
                     } 
                 }
 
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][1] >= cube[1][1]) {
-                        coly = coly*(-1)
-                        lmove()
+                        if (coly > 0) {
+                            coly = coly*(-1.0)
+                            lmove()
+                        }
                         return
                     }
                 }
 
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][1] <= cube[2][1]) {
-                        coly = coly*(-1)
-                        lmove()
+                        if (coly < 0) {
+                            coly = coly*(-1.0)
+                            lmove()
+                        }
                         return
                     }
                 }
 
+                //console.log(cube[0][2], cube[4][2])
+
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][2] >= cube[0][2]) {
-                        colz = colz*(-1)
-                        lmove()
+                        if (colz > 0) {
+                            colz = colz*(-1.0)
+                            lmove()
+                        }
                         return
                     }
                 }
 
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][2] <= cube[4][2]) {
-                        colz = colz*(-1)
-                        lmove()
+                        if (colz < 0) {
+                            colz = colz*(-1.0)
+                            lmove()
+                        }
                         return
                     }
                 }
