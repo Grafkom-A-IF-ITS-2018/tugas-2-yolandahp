@@ -250,34 +250,34 @@
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer)
 
                 vertices = [
-                    -20.0, 20.0, 0.0,
-                    20.0, 20.0, 0.0,
-                    20.0, -20.0, 0.0,
-                    -20.0, -20.0, 0.0,
-                    -20.0, 20.0, 0.0,
+                    -27.5, 27.5, 0.0,
+                    27.5, 27.5, 0.0,
+                    27.5, -27.5, 0.0,
+                    -27.5, -27.5, 0.0,
+                    -27.5, 27.5, 0.0,
                     
-                    -20.0, 20.0, -30.0,
-                    20.0, 20.0, -30.0,
-                    20.0, 20.0, 0.0,
-                    20.0, -20.0, 0.0,
-                    20.0, -20.0, -30.0,
+                    -27.5, 27.5, -30.0,
+                    27.5, 27.5, -30.0,
+                    27.5, 27.5, 0.0,
+                    27.5, -27.5, 0.0,
+                    27.5, -27.5, -30.0,
                     
-                    -20.0, -20.0, -30.0,
-                    -20.0, -20.0, 0.0,
-                    -20.0, -20.0, -30.0,
-                    -20.0, 20.0, -30.0,
-                    20.0, 20.0, -30.0,
-                    20.0, -20.0, -30.0,
+                    -27.5, -27.5, -30.0,
+                    -27.5, -27.5, 0.0,
+                    -27.5, -27.5, -30.0,
+                    -27.5, 27.5, -30.0,
+                    27.5, 27.5, -30.0,
+                    27.5, -27.5, -30.0,
                 ]
 
-                cubevertices.push([-20.0, 20.0, 0.0, 1.0]) //kiri atas depan
-                cubevertices.push([20.0, 20.0, 0.0, 1.0]) //kanan atas depan
-                cubevertices.push([20.0, -20.0, 0.0, 1.0]) //kanan bawah depan
-                cubevertices.push([-20.0, -20.0, 0.0, 1.0]) //kiri bawah depan
-                cubevertices.push([-20.0, 20.0, -30.0, 1.0]) //kiri atas belakang
-                cubevertices.push([20.0, 20.0, -30.0, 1.0]) //kanan atas belakang
-                cubevertices.push([-20.0, -20.0, -30.0, 1.0]) //kiri bawah belakang
-                cubevertices.push([20.0, -20.0, -30.0, 1.0]) //kanan bawah belakang
+                cubevertices.push([-27.5, 27.5, 0.0, 1.0]) //kiri atas depan
+                cubevertices.push([27.5, 27.5, 0.0, 1.0]) //kanan atas depan
+                cubevertices.push([27.5, -27.5, 0.0, 1.0]) //kanan bawah depan
+                cubevertices.push([-27.5, -27.5, 0.0, 1.0]) //kiri bawah depan
+                cubevertices.push([-27.5, 27.5, -30.0, 1.0]) //kiri atas belakang
+                cubevertices.push([27.5, 27.5, -30.0, 1.0]) //kanan atas belakang
+                cubevertices.push([-27.5, -27.5, -30.0, 1.0]) //kiri bawah belakang
+                cubevertices.push([27.5, -27.5, -30.0, 1.0]) //kanan bawah belakang
                 
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
                 cubeVertexPositionBuffer.itemSize = 3
@@ -299,9 +299,9 @@
 
             var rl = 0
             
-            var xtrans = 0.0
-            var ytrans = 0.0
-            var ztrans = 0.0
+            var xtrans = 0.3
+            var ytrans = 0.4
+            var ztrans = 0.6
 
             function drawScene(){
                 gl.viewport(0, 0, gl.viewportWidth, gl.viewportWidth)
@@ -309,7 +309,7 @@
                 mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth/gl.viewportHeight, 0.1, 100.0)
                 mat4.identity(mvMatrix)
 
-                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -75.0])
+                mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -60.0])
                 mvPushMatrix()
                 
                 mat4.translate(mvMatrix, mvMatrix, [xtrans, ytrans, ztrans])
@@ -349,9 +349,9 @@
                     currentpos_cube.push(cur)
                 }
 
-                //console.log(currentpos_cube)
+                console.log(xtrans, ytrans, ztrans)
 
-                lmove(currentpos_l, currentpos_cube)
+                checkcollision(currentpos_l, currentpos_cube)
 
                 setMatrixUniform()
                 gl.drawArrays(gl.LINE_STRIP, 0, cubeVertexPositionBuffer.numItems)
@@ -382,21 +382,64 @@
                 return [x, y, z, i]
             }
 
-            function checkcollision() {
+            var colx = 1, coly = 1, colz = -1
 
-            }
-
-            function lmove(l, cube) {
-                //kanan
+            function checkcollision(l, cube) {
                 for (var i = 0; i < l.length; i++) {
                     if (l[i][0] >= cube[1][0]) {
-                        console.log('nabrak')
+                        colx = colx*(-1)
+                        lmove()
+                        return
+                    } 
+                }
+
+                for (var i = 0; i < l.length; i++) {
+                    if (l[i][0] <= cube[0][0]) {
+                        colx = colx*(-1)
+                        lmove()
+                        return
+                    } 
+                }
+
+                for (var i = 0; i < l.length; i++) {
+                    if (l[i][1] >= cube[1][1]) {
+                        coly = coly*(-1)
+                        lmove()
+                        return
                     }
                 }
 
-                //console.log(l[0][0], cube[1][0])
+                for (var i = 0; i < l.length; i++) {
+                    if (l[i][1] <= cube[2][1]) {
+                        coly = coly*(-1)
+                        lmove()
+                        return
+                    }
+                }
 
-                xtrans += 0.003
+                for (var i = 0; i < l.length; i++) {
+                    if (l[i][2] >= cube[0][2]) {
+                        colz = colz*(-1)
+                        lmove()
+                        return
+                    }
+                }
+
+                for (var i = 0; i < l.length; i++) {
+                    if (l[i][2] <= cube[4][2]) {
+                        colz = colz*(-1)
+                        lmove()
+                        return
+                    }
+                }
+
+
+            }
+
+            function lmove() {
+                xtrans += 0.08*colx
+                ytrans += 0.08*coly
+                ztrans += 0.08*colz
             }
 
             function tick() {
@@ -404,6 +447,7 @@
                 drawScene()
                 animate()
             }
+
             function webGLStart() {
                 var canvas = document.getElementById('mycanvas')
                 initGL(canvas)
